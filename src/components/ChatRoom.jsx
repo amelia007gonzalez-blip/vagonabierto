@@ -15,8 +15,8 @@ const emojis = ['😊','😂','🔥','🚀','🚆','⏰','⚠️','👍','❤️
 // Free public radio streams (CORS-friendly HLS/MP3)
 const stations = [
   { name: 'Los 40', url: 'https://25553.live.streamtheworld.com/LOS40.mp3' },
-  { name: 'Cadena 100', url: 'https://25563.live.streamtheworld.com/CADENA100.mp3' },
-  { name: 'Europa FM', url: 'https://25593.live.streamtheworld.com/EUROPAFM.mp3' },
+  { name: 'Cadena 100', url: 'https://cadena100-cope.flumotion.com/playlist.m3u8' },
+  { name: 'Europa FM', url: 'https://livefastly-webs.europafm.com/europafm/audio/master.m3u8' },
   { name: 'M80 Radio', url: 'https://playerservices.streamtheworld.com/api/livestream-redirect/M80RADIO.mp3' },
 ];
 
