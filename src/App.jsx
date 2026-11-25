@@ -7,6 +7,7 @@ import StandardsScreen from './components/StandardsScreen';
 import SelectionScreen from './components/SelectionScreen';
 import ChatRoom from './components/ChatRoom';
 import AuthScreen from './components/AuthScreen';
+import LegalModal, { LEGAL_SECTIONS } from './components/LegalModal';
 import { HorariosPage, EstacionesPage } from './components/InfoPages';
 import { IncidentsPage } from './components/IncidentsPage';
 import { useSession } from './lib/auth';
@@ -28,6 +29,7 @@ const App = () => {
   const sessionUser = session?.user ?? null;
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [legalModal, setLegalModal] = useState(null);
   const [userProfile, setUserProfile] = useState(() => {
     const saved = sessionStorage.getItem('vagon_user');
     return saved && saved !== "undefined" ? JSON.parse(saved) : null;
@@ -231,21 +233,40 @@ const App = () => {
       </main>
 
       {/* ── Footer ── */}
-      <footer className="py-12 border-t border-zinc-900 bg-black">
-        <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6 text-zinc-600">
-          <div className="flex items-center gap-3 opacity-40">
-            <Train size={20} />
-            <span className="font-outfit font-bold text-lg uppercase tracking-widest">Vagón Abierto</span>
+      <footer className="py-10 border-t border-zinc-900 bg-black">
+        <div className="container mx-auto px-6 space-y-6 text-zinc-600">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+            <div className="flex items-center gap-3 opacity-40">
+              <Train size={20} />
+              <span className="font-outfit font-bold text-lg uppercase tracking-widest">Vagón Abierto</span>
+            </div>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-center">
+              © 2026 Vagón Abierto · Tarragona · <span className="text-vagon-red">Chat comunitario v2.0</span>
+            </p>
+            <div className="flex gap-5">
+              <button onClick={() => go(VIEWS.HORARIOS)} className="hover:text-white transition-colors text-xs font-bold uppercase tracking-widest">Horarios</button>
+              <button onClick={() => go(VIEWS.INCIDENCIAS)} className="hover:text-white transition-colors text-xs font-bold uppercase tracking-widest">Incidencias</button>
+            </div>
           </div>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-center">
-            © 2026 Vagón Abierto · Tarragona · <span className="text-vagon-red">Chat comunitario v2.0</span>
-          </p>
-          <div className="flex gap-5">
-            <button onClick={() => go(VIEWS.HORARIOS)} className="hover:text-white transition-colors text-xs font-bold uppercase tracking-widest">Horarios</button>
-            <button onClick={() => go(VIEWS.INCIDENCIAS)} className="hover:text-white transition-colors text-xs font-bold uppercase tracking-widest">Incidencias</button>
+
+          <div className="pt-5 border-t border-zinc-900/80 flex flex-wrap justify-center items-center gap-x-6 gap-y-2">
+            {Object.entries(LEGAL_SECTIONS).map(([key, item]) => (
+              <button
+                key={key}
+                type="button"
+                onClick={() => setLegalModal(key)}
+                className="text-[11px] font-medium text-zinc-500 hover:text-zinc-200 transition-colors"
+              >
+                {item.label}
+              </button>
+            ))}
           </div>
         </div>
       </footer>
+
+      <AnimatePresence>
+        {legalModal && <LegalModal sectionKey={legalModal} onClose={() => setLegalModal(null)} />}
+      </AnimatePresence>
 
       <Analytics />
     </div>
